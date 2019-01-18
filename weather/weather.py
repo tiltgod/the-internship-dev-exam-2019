@@ -10,7 +10,7 @@ xml_input = input()
 with open(xml_input, 'r') as raw_xml:
     xml_str = raw_xml.read()
 
-converted_json = json.dumps(xmltodict.parse(xml_str), indent=4)
+converted_json = json.dumps(xmltodict.parse(xml_str, attr_prefix='', cdata_key=''), indent=4)
 
 filename_w_ext = os.path.basename(xml_input)
 filename = os.path.splitext(filename_w_ext)[0]

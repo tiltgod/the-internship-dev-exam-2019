@@ -1,5 +1,27 @@
-""" -*- coding: python3 -*-
-    author: Napasin Hongnger"""
-""" weather
-    โปรแกรมแปลงข้อมูลสภาพอากาศ จาก Format XML เป็น json ใน Terminal/Console (Command Line Interface)
-    โปรแกรมจะรับ Input เป็นไฟล์สภาพอากาศสกุล xml และรีเทิร์น Output เป็น ไฟล์สภาพอากาศสกุล json"""
+""" -*- coding: python(3.7.1) -*-
+    author: Napasin Hongnger """
+""" weather """
+
+import json
+import xmltodict
+import os
+
+xml_input = input()
+with open(xml_input, 'r') as raw_xml:
+    xml_str = raw_xml.read()
+
+converted_json = json.dumps(xmltodict.parse(xml_str), indent=4)
+
+filename_w_ext = os.path.basename(xml_input)
+filename = os.path.splitext(filename_w_ext)[0]
+json_output = filename + ".json"
+print(json_output)
+
+with open(json_output, 'w') as json_writer:
+    json_writer.write(converted_json)
+
+
+ 
+
+ 
+

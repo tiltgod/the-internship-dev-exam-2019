@@ -1,5 +1,5 @@
 """ -*- coding: python(3.7.1) -*-
-    author: Napasin Hongnger """
+    author: Napasin Hongngern """
 """ weather """
 
 import json

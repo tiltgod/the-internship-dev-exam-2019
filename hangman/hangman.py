@@ -63,7 +63,7 @@ elif category == 3:
     # hint = secondline_of_category_3.split('/')
     # wordlist_3.close()
     # word_order += randint(0,4)
-    # word += answer[word_order]
+    # word += answer[word_order].strip()
     # print("\n"+"Hint: "+ hint[word_order]+"\n")
     print("sorry, this part not available yet.")
 else:
@@ -81,7 +81,7 @@ def areCharactersUnique(s):
     checker = 0
       
     for i in range(len(s)): 
-          
+
         val = ord(s[i]) - ord('a') 
           
         # If bit corresponding to current  
@@ -120,7 +120,7 @@ while life > 0:
     print("Score: " +str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses) +"\n", end = " ")
     print("\n")
 
-    guess = input()
+    guess = input().lower()
     if guess.isalpha() and len(guess) == 1:
         guesses += guess
         if guess in word:

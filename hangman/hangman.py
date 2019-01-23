@@ -111,14 +111,16 @@ while life > 0:
             print("_", end = " ")
         
     print(str(point) + "\n", end = " ")
-    
-    guess = input()
-    guesses += guess
 
-    if guess in word:
-        point += 1
+    guess = input()
+    if guess.isalpha():
+        guesses += guess
+        if guess in word:
+            point += 1
+        else:
+            life = life - 1
     else:
-        life = life - 1
+        print("pls insert a alphabet")
     if life == 0:
         print("wp")
         break

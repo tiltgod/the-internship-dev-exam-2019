@@ -11,6 +11,7 @@ print("Select Category by 1,2,3 as integer."+"\n")
 print("1. Animals")
 print("2. Famous games from various platform")
 print("3. Netflix's original "+"\n")
+print("You have 10 chance(life) to guess."+"\n")
 print("Warning!!! : All hints are from urbandictionary.com. Honestly I'm not trolling but just wanna see your smile :) Please enjoy"+"\n")
 
 absolute_path = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +27,8 @@ point = 0
 point_max = 0
 guesses = ""
 word = ""
+
+print("Select category: ", end = " ")
 
 try: 
     category = int(input())
@@ -116,10 +119,10 @@ while life > 0:
             print(char, end = " ")
         else:
             print("_", end = " ")
-        
-    print("Score: " +str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses) +"\n", end = " ")
-    print("\n")
 
+    print("Score: " +str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses), end = " ")
+    print("\n")
+    print("You guess: ", end = " ")
     guess = input().lower()
     if guess.isalpha() and len(guess) == 1:
         guesses += guess
@@ -128,9 +131,10 @@ while life > 0:
         else:
             life = life - 1
     else:
-        print("\n"+"pls insert a alphabet."+"\n")
+        print("\n"+"Please insert only a alphabet."+"\n")
+        life = life - 1
     if life == 0:
-        print("Sorry not today."+"\n")
+        print("\n"+"Sorry not today. " + "Answer is " + word + ".")
         break
     if point == point_max:
         for j in word:

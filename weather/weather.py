@@ -6,7 +6,7 @@ import json
 import xmltodict
 import os
 
-xml_input = input() # Get a file as input
+xml_input = input().strip() # Get a file as input
 filename_w_ext = os.path.basename(xml_input) # Get basename from file
 filename = os.path.splitext(filename_w_ext)[0] # Get only filename from basename
 

@@ -6,4 +6,5 @@ file wordlist ของเกม
   - animail_wordlist.txt  
   - food_wordlist.txt  
   - meme_wordlist.txt  
-  
+
+function check_unique มาจาก https://www.geeksforgeeks.org/efficiently-check-string-duplicates-without-using-additional-data-structure/

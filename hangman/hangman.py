@@ -9,8 +9,8 @@ from random import randint
 
 print("Select Category by 1,2,3 as integer."+"\n")
 print("1. Animals")
-print("2. Famous games from various platform")
-print("3. Netflix's original "+"\n")
+print("2. Food")
+print("3. Memes "+"\n")
 print("You have 10 chance(life) to guess."+"\n")
 print("Warning!!! : All hints are from urbandictionary.com. Honestly I'm not trolling but just wanna see your smile :) Please enjoy"+"\n")
 

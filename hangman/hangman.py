@@ -6,7 +6,45 @@ import os
 import sys
 from random import randint
 
+# declare variables
+life = 5
+order = randint(0,4)
+point = 0
+point_max = 0
+word = ""
+hint = ""
+guesses = ""
 
+def get_word_and_hint(category, order): # get a word and hint from file
+    category -= 1
+    global word
+    global hint
+    absolute_path = os.path.dirname(os.path.abspath(__file__))
+    fullname_1 = absolute_path + "/animal_wordlist.txt"
+    fullname_2 = absolute_path + "/food_wordlist.txt"
+    fullname_3 = absolute_path + "/meme_wordlist.txt"
+    filebox = [fullname_1,fullname_2,fullname_3]
+    open_wordlist = open(filebox[category], 'r')
+    words = open_wordlist.readline().split('/')
+    word = words[order].strip()
+    hints = open_wordlist.readline().split('/')
+    hint = hints[order]
+    return word, hint
+
+def check_unique(word): # if a word has double characters, We count as 1 from https://www.geeksforgeeks.org/efficiently-check-string-duplicates-without-using-additional-data-structure/
+    # An integer to store presence/absence  
+    # of 26 characters using its 32 bits
+    check = 0
+    for i in range(len(word)): 
+        val = ord(word[i]) - ord('a')
+        # If bit corresponding to current  
+        # character is already set 
+        if (check & (1 << val)) > 0: 
+            return False
+        # set bit in checker  
+        check |= (1 << val) 
+    return True
+# display part
 print("Select Category by 1,2,3 as integer."+"\n")
 print("1. Animals")
 print("2. Food")
@@ -14,131 +52,62 @@ print("3. Memes "+"\n")
 print("You have 10 chance(life) to guess."+"\n")
 print("Warning!!! : All hints are from urbandictionary.com. Honestly I'm not trolling but just wanna see your smile :) Please enjoy"+"\n")
 
-absolute_path = os.path.dirname(os.path.abspath(__file__))
-
-file_path_1 = absolute_path + "/animal_wordlist.txt"
-file_path_2 = absolute_path + "/pcgames_wordlist.txt"
-file_path_3 = absolute_path + "/netflix_original_wordlist.txt"
-
-life = 5
-word_order = 0
-duplicate_check = 0
-point = 0
-point_max = 0
-guesses = ""
-word = ""
-
-print("Select category: ", end = " ")
-
 try: 
     category = int(input())
 except:
-    category = 0
     print("That's not valid option!! Exit the game.")
     sys.exit(0)
 
-if category == 1:
-    wordlist_1 = open(file_path_1, 'r')
-    firstline_of_category_1 = wordlist_1.readline()
-    secondline_of_category_1 = wordlist_1.readline()
-    answer = firstline_of_category_1.split('/')
-    hint = secondline_of_category_1.split('/')
-    wordlist_1.close()
-    word_order += randint(0,4)
-    word += answer[word_order].strip()
-    print("\n"+"Hint: "+ hint[word_order]+"\n")
-elif category == 2:
-    # wordlist_2 = open(file_path_2, 'r')
-    # firstline_of_category_2 = wordlist_2.readline()
-    # secondline_of_category_2 = wordlist_2.readline()
-    # answer = firstline_of_category_2.split('/')
-    # hint = secondline_of_category_2.split('/')
-    # wordlist_2.close()
-    # word_order += randint(0,4)
-    # word += answer[word_order]
-    # print("\n"+"Hint: "+ hint[word_order]+"\n")
-    print("sorry, this part not available yet.")
-elif category == 3:
-    # wordlist_3 = open(file_path_3, 'r')
-    # firstline_of_category_3 = wordlist_3.readline()
-    # secondline_of_category_3 = wordlist_3.readline()
-    # answer = firstline_of_category_3.split('/')
-    # hint = secondline_of_category_3.split('/')
-    # wordlist_3.close()
-    # word_order += randint(0,4)
-    # word += answer[word_order].strip()
-    # print("\n"+"Hint: "+ hint[word_order]+"\n")
-    print("sorry, this part not available yet.")
-else:
-    print("That is not an option!! exit the game.")
+if category < 1 and category > 2:
+    print("That's not valid option!! Exit the game.")
     sys.exit(0)
-    
+else:
+    get_word_and_hint(category, order)
 
-point_max += len(word) 
+print("Hint: " + hint + "\n") # show hint
+point_max = len(word) # calculate point from lenght of word
 
-
-def areCharactersUnique(s): 
-      
-    # An integer to store presence/absence  
-    # of 26 characters using its 32 bits 
-    checker = 0
-      
-    for i in range(len(s)): 
-
-        val = ord(s[i]) - ord('a') 
-          
-        # If bit corresponding to current  
-        # character is already set 
-        if (checker & (1 << val)) > 0: 
-            return False
-          
-        # set bit in checker  
-        checker |= (1 << val) 
-          
-    return True
-# Driver code 
-s = word
-if areCharactersUnique(s):
+if check_unique(word): # if word has double characters, we count as 1
     pass
-else: 
-    duplicate_check += 1
-if duplicate_check == 1:
-    point_max = point_max - 1
+else:
+    point_max -= 1
 
-while life > 0:
-    failed = 0
-    if life == 0:
-        print("wp")
-        break
-    if point == point_max:
-        print("well played")
-        print(point)
-        break
+while life > 0: # strat a game
+    # printing blank and character that user just guessed
     for char in word:
         if char in guesses:
             print(char, end = " ")
         else:
             print("_", end = " ")
-
-    print("Score: " +str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses), end = " ")
+    # display status
+    print("Score: " + str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses), end = " ")
     print("\n")
     print("You guess: ", end = " ")
+    # only get a character input 
     guess = input().lower()
     if guess.isalpha() and len(guess) == 1:
         guesses += guess
         if guess in word:
             point += 1
         else:
-            life = life - 1
+            life -= 1
     else:
-        print("\n"+"Please insert only a alphabet."+"\n")
-        life = life - 1
-    if life == 0:
-        print("\n"+"Sorry not today. " + "Answer is " + word + ".")
-        break
+        print("\n"+"Please guess only 1 alphabet."+"\n")
+        life -= 1
+    # conclusion of game
     if point == point_max:
         for j in word:
             print(j, end = " ")
         print("Score: " +str(point) + " " + "Life: " + str(life) + " " + "guessed: " +(guesses) +"\n")
         print("You won, Good game well played."+"\n")
         break
+    if life == 0:
+        print("\n"+"Sorry not today. " + "Life: " + str(life) + " Answer is " + word + ".")
+        break
+    
+
+    
+
+
+
+
